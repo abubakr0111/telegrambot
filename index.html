@@ -2,170 +2,289 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Мозса - Обмен криптовалюты</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  
+  :root {
+    --primary-color: #1E3C72;
+    --secondary-color: #2A5298;
+    --buy-color: #4CAF50;
+    --sell-color: #F44336;
+    --text-color: #333333;
+    --light-text: #666666;
+    --border-color: #E0E0E0;
+    --background: #F5F7FA;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
   body {
     font-family: 'Inter', sans-serif;
-    margin: 0; 
-    padding: 0;
-    background: #f5f5f5;
-    color: #333;
-    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--text-color);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    flex-direction: column;
+    min-height: 100vh;
   }
-  .app {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 380px;
-    overflow: hidden;
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 100%;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
+  
   .header {
-    padding: 15px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
+    padding: 12px 16px;
+    background: white;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+  
   .header-title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 18px;
+    color: var(--primary-color);
   }
+  
   .close-btn {
-    color: #666;
+    color: var(--light-text);
     font-size: 20px;
     cursor: pointer;
   }
+  
   .app-name {
     text-align: center;
-    padding: 15px;
-    background: #f8f8f8;
-    font-weight: bold;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    font-weight: 500;
     font-size: 16px;
   }
+  
   .main-title {
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 20px;
-    padding: 10px 0;
-    margin: 0 15px;
-    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+    margin: 0 16px;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
   }
+  
   .action-buttons {
     display: flex;
-    margin: 15px;
-    gap: 10px;
+    margin: 16px;
+    gap: 12px;
   }
+  
   .action-btn {
     flex: 1;
-    padding: 12px;
+    padding: 14px;
     border-radius: 8px;
     border: none;
-    font-weight: bold;
-    background: #1e88e5;
+    font-weight: 600;
     color: white;
     cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
   }
+  
+  .action-btn:active {
+    transform: scale(0.98);
+  }
+  
+  .action-btn.buy {
+    background: var(--buy-color);
+  }
+  
   .action-btn.sell {
-    background: #f44336;
+    background: var(--sell-color);
   }
+  
+  .info-section {
+    margin: 0 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
   .info-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
+    padding: 14px 16px;
+    background: white;
+    border-bottom: 1px solid var(--border-color);
   }
+  
+  .info-row:last-child {
+    border-bottom: none;
+  }
+  
   .info-label {
-    color: #666;
+    color: var(--light-text);
+    font-size: 14px;
   }
+  
   .info-value {
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 14px;
   }
+  
+  .rate-value {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+  
   .footer-menu {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    padding: 15px;
-    border-top: 1px solid #eee;
+    padding: 16px;
+    margin-top: auto;
+    background: white;
+    border-top: 1px solid var(--border-color);
   }
+  
   .footer-btn {
-    padding: 8px;
+    padding: 10px;
     border-radius: 6px;
-    border: 1px solid #ddd;
-    background: #f8f8f8;
+    border: 1px solid var(--border-color);
+    background: white;
     font-size: 12px;
     text-align: center;
     cursor: pointer;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: all 0.2s;
   }
+  
+  .footer-btn:active {
+    background: #f0f0f0;
+  }
+  
   .form-container {
-    padding: 15px;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
   }
+  
   .form-title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    color: var(--primary-color);
+    text-align: center;
   }
+  
   .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
   }
+  
   .input-label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 6px;
+    font-weight: 500;
     font-size: 14px;
   }
+  
   .input-label span {
-    color: red;
+    color: var(--sell-color);
   }
+  
   .input-field {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.2s;
   }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
   .checkbox-group {
-    margin: 15px 0;
+    margin: 16px 0;
     display: flex;
     align-items: center;
   }
+  
   .checkbox-group input {
     margin-right: 8px;
+    accent-color: var(--primary-color);
   }
+  
+  .checkbox-group label {
+    font-size: 14px;
+    color: var(--light-text);
+  }
+  
   .submit-btn {
     width: 100%;
-    padding: 12px;
-    background: #1e88e5;
+    padding: 14px;
+    background: var(--primary-color);
     color: white;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
+    font-size: 16px;
+    transition: all 0.2s;
   }
+  
+  .submit-btn:active {
+    background: var(--secondary-color);
+    transform: scale(0.98);
+  }
+  
   .back-btn {
     width: 100%;
-    padding: 12px;
-    background: #f8f8f8;
-    color: #333;
-    border: 1px solid #ddd;
+    padding: 14px;
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 12px;
     text-align: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  
+  .back-btn:active {
+    background: #f0f0f0;
+  }
+  
+  .rate-btn {
+    background: var(--primary-color);
+    color: white;
   }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app-container">
   <!-- Главный экран -->
   <div id="main-screen">
     <div class="header">
@@ -175,21 +294,28 @@
     <div class="main-title">ОБМЕН КРИПТОВАЛЮТ</div>
     
     <div class="action-buttons">
-      <button class="action-btn" id="buy-btn">Купить USDT</button>
+      <button class="action-btn buy" id="buy-btn">Купить USDT</button>
       <button class="action-btn sell" id="sell-btn">Продать USDT</button>
     </div>
     
-    <div class="info-row">
-      <span class="info-label">Курс</span>
-      <span class="info-value" id="rate-info">Загрузка...</span>
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-label">Курс</span>
+        <span class="info-value rate-value" id="rate-info">Загрузка...</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Доступно</span>
+        <span class="info-value">500,000 USDT</span>
+      </div>
     </div>
     
     <div class="footer-menu">
-      <button class="footer-btn">Все заявки</button>
-      <button class="footer-btn">Поддержка</button>
-      <button class="footer-btn">О нас</button>
-      <button class="footer-btn">AML проверка</button>
-      <button class="footer-btn">Биржа Мозса</button>
+      <button class="footer-btn" id="all-orders-btn">Все заявки</button>
+      <button class="footer-btn" id="support-btn">Поддержка</button>
+      <button class="footer-btn" id="about-btn">О нас</button>
+      <button class="footer-btn" id="aml-btn">AML проверка</button>
+      <button class="footer-btn" id="exchange-btn">Биржа Мозса</button>
+      <button class="footer-btn rate-btn" id="rate-btn">Обновить курс</button>
     </div>
   </div>
   
@@ -204,7 +330,7 @@
       
       <div class="input-group">
         <label class="input-label">Введите сумму в рублях</label>
-        <input type="number" class="input-field" id="amount-input">
+        <input type="number" class="input-field" id="amount-input" placeholder="1000">
       </div>
       
       <div class="input-group">
@@ -224,11 +350,11 @@
       
       <div class="input-group">
         <label class="input-label">Адрес кошелька TRC-20 (34 символа)<span>*</span></label>
-        <input type="text" class="input-field" id="wallet-input" required>
+        <input type="text" class="input-field" id="wallet-input" required placeholder="Txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
       </div>
       
       <div class="checkbox-group">
-        <input type="checkbox" id="terms-checkbox">
+        <input type="checkbox" id="terms-checkbox" required>
         <label for="terms-checkbox">Я прочитал правила и принимаю условия сервиса</label>
       </div>
       
@@ -248,9 +374,53 @@
   const submitBtn = document.getElementById('submit-btn');
   const formTitle = document.getElementById('form-title');
   const rateInfo = document.getElementById('rate-info');
+  const rateBtn = document.getElementById('rate-btn');
   
   // Переменные состояния
   let currentAction = 'buy'; // 'buy' или 'sell'
+  let currentRate = 0;
+  
+  // Telegram WebApp интеграция
+  function initTelegramWebApp() {
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.expand();
+      
+      // Обработка кнопки закрытия
+      document.querySelector('.header-title').addEventListener('click', () => {
+        Telegram.WebApp.close();
+      });
+    }
+  }
+  
+  // Получение курса USDT с CoinGecko API
+  async function fetchUSDTPrice() {
+    try {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub');
+      const data = await response.json();
+      
+      if (data && data.tether && data.tether.rub) {
+        currentRate = data.tether.rub;
+        const buyRate = (currentRate + 1).toFixed(2);
+        const sellRate = currentRate.toFixed(2);
+        rateInfo.textContent = `Купить: ${buyRate} ₽ | Продать: ${sellRate} ₽`;
+        return true;
+      }
+    } catch (error) {
+      console.error('Ошибка при получении курса:', error);
+    }
+    
+    rateInfo.textContent = 'Не удалось загрузить курс';
+    return false;
+  }
+  
+  // Отправка данных в Telegram бота
+  function sendDataToBot(data) {
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.sendData(JSON.stringify(data));
+      return true;
+    }
+    return false;
+  }
   
   // Обработчики кнопок
   buyBtn.addEventListener('click', () => {
@@ -272,19 +442,31 @@
     mainScreen.style.display = 'block';
   });
   
-  submitBtn.addEventListener('click', () => {
+  rateBtn.addEventListener('click', async () => {
+    rateInfo.textContent = 'Обновление...';
+    await fetchUSDTPrice();
+  });
+  
+  submitBtn.addEventListener('click', async () => {
     const amount = document.getElementById('amount-input').value;
-    const lastName = document.getElementById('lastname-input').value;
-    const firstName = document.getElementById('firstname-input').value;
-    const wallet = document.getElementById('wallet-input').value;
+    const lastName = document.getElementById('lastname-input').value.trim();
+    const firstName = document.getElementById('firstname-input').value.trim();
+    const middleName = document.getElementById('middlename-input').value.trim();
+    const wallet = document.getElementById('wallet-input').value.trim();
     const termsChecked = document.getElementById('terms-checkbox').checked;
     
-    if (!amount || !lastName || !firstName || !wallet) {
-      alert('Пожалуйста, заполните все обязательные поля');
+    // Валидация
+    if (!amount || isNaN(amount) {
+      alert('Пожалуйста, введите корректную сумму');
       return;
     }
     
-    if (wallet.length !== 34) {
+    if (!lastName || !firstName) {
+      alert('Пожалуйста, заполните обязательные поля (Фамилия и Имя)');
+      return;
+    }
+    
+    if (!wallet || wallet.length !== 34) {
       alert('Адрес кошелька должен содержать 34 символа');
       return;
     }
@@ -294,38 +476,63 @@
       return;
     }
     
-    // Здесь должна быть логика отправки данных
-    alert(`Заявка на ${currentAction === 'buy' ? 'покупку' : 'продажу'} USDT на сумму ${amount} руб. отправлена`);
+    // Формируем данные для отправки
+    const data = {
+      operation: currentAction,
+      amount: parseFloat(amount),
+      lastName,
+      firstName,
+      middleName,
+      wallet,
+      rate: currentAction === 'buy' ? currentRate + 1 : currentRate
+    };
     
-    // Очищаем форму
-    document.getElementById('amount-input').value = '';
-    document.getElementById('lastname-input').value = '';
-    document.getElementById('firstname-input').value = '';
-    document.getElementById('middlename-input').value = '';
-    document.getElementById('wallet-input').value = '';
-    document.getElementById('terms-checkbox').checked = false;
-    
-    // Возвращаемся на главный экран
-    formScreen.style.display = 'none';
-    mainScreen.style.display = 'block';
+    // Отправляем данные
+    if (sendDataToBot(data)) {
+      alert('✅ Ваша заявка отправлена! Ожидайте ответа от оператора.');
+      
+      // Очищаем форму
+      document.getElementById('amount-input').value = '';
+      document.getElementById('lastname-input').value = '';
+      document.getElementById('firstname-input').value = '';
+      document.getElementById('middlename-input').value = '';
+      document.getElementById('wallet-input').value = '';
+      document.getElementById('terms-checkbox').checked = false;
+      
+      // Возвращаемся на главный экран
+      formScreen.style.display = 'none';
+      mainScreen.style.display = 'block';
+    } else {
+      alert('❌ Ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+    }
   });
   
-  // Получение курса USDT
-  async function fetchUSDTPrice() {
-    try {
-      // Здесь должен быть реальный API-запрос
-      // Для примера используем фиксированный курс
-      const buyRate = 90.5;
-      const sellRate = 89.2;
-      
-      rateInfo.textContent = `Купить: ${buyRate} ₽, Продать: ${sellRate} ₽`;
-    } catch (error) {
-      rateInfo.textContent = 'Не удалось загрузить курс';
-    }
-  }
+  // Обработчики кнопок меню
+  document.getElementById('all-orders-btn').addEventListener('click', () => {
+    alert('Раздел "Все заявки" в разработке');
+  });
+  
+  document.getElementById('support-btn').addEventListener('click', () => {
+    alert('Раздел "Поддержка" в разработке');
+  });
+  
+  document.getElementById('about-btn').addEventListener('click', () => {
+    alert('Раздел "О нас" в разработке');
+  });
+  
+  document.getElementById('aml-btn').addEventListener('click', () => {
+    alert('Раздел "AML проверка" в разработке');
+  });
+  
+  document.getElementById('exchange-btn').addEventListener('click', () => {
+    alert('Раздел "Биржа Мозса" в разработке');
+  });
   
   // Инициализация приложения
-  fetchUSDTPrice();
+  document.addEventListener('DOMContentLoaded', () => {
+    initTelegramWebApp();
+    fetchUSDTPrice();
+  });
 </script>
 </body>
 </html>
