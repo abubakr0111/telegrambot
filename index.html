@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мозса - Обмен криптовалюты</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0; 
+    padding: 0;
+    background: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .app {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 380px;
+    overflow: hidden;
+  }
+  .header {
+    padding: 15px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .close-btn {
+    color: #666;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .app-name {
+    text-align: center;
+    padding: 15px;
+    background: #f8f8f8;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .main-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px 0;
+    margin: 0 15px;
+    border-bottom: 1px solid #eee;
+  }
+  .action-buttons {
+    display: flex;
+    margin: 15px;
+    gap: 10px;
+  }
+  .action-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    background: #1e88e5;
+    color: white;
+    cursor: pointer;
+  }
+  .action-btn.sell {
+    background: #f44336;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+  }
+  .info-label {
+    color: #666;
+  }
+  .info-value {
+    font-weight: bold;
+  }
+  .footer-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #eee;
+  }
+  .footer-btn {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .form-container {
+    padding: 15px;
+  }
+  .form-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  .input-group {
+    margin-bottom: 15px;
+  }
+  .input-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .input-label span {
+    color: red;
+  }
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  .checkbox-group {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+  }
+  .checkbox-group input {
+    margin-right: 8px;
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .back-btn {
+    width: 100%;
+    padding: 12px;
+    background: #f8f8f8;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Главный экран -->
+  <div id="main-screen">
+    <div class="header">
+      <div class="header-title">Закрыть</div>
+    </div>
+    <div class="app-name">Мозса</div>
+    <div class="main-title">ОБМЕН КРИПТОВАЛЮТ</div>
+    
+    <div class="action-buttons">
+      <button class="action-btn" id="buy-btn">Купить USDT</button>
+      <button class="action-btn sell" id="sell-btn">Продать USDT</button>
+    </div>
+    
+    <div class="info-row">
+      <span class="info-label">Курс</span>
+      <span class="info-value" id="rate-info">Загрузка...</span>
+    </div>
+    
+    <div class="footer-menu">
+      <button class="footer-btn">Все заявки</button>
+      <button class="footer-btn">Поддержка</button>
+      <button class="footer-btn">О нас</button>
+      <button class="footer-btn">AML проверка</button>
+      <button class="footer-btn">Биржа Мозса</button>
+    </div>
+  </div>
+  
+  <!-- Экран формы -->
+  <div id="form-screen" style="display: none;">
+    <div class="header">
+      <div class="header-title">ОБМЕН</div>
+    </div>
+    
+    <div class="form-container">
+      <div class="form-title" id="form-title">КУПИТЬ USDT</div>
+      
+      <div class="input-group">
+        <label class="input-label">Введите сумму в рублях</label>
+        <input type="number" class="input-field" id="amount-input">
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Фамилия<span>*</span></label>
+        <input type="text" class="input-field" id="lastname-input" required>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Имя<span>*</span></label>
+        <input type="text" class="input-field" id="firstname-input" required>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Отчество</label>
+        <input type="text" class="input-field" id="middlename-input">
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Адрес кошелька TRC-20 (34 символа)<span>*</span></label>
+        <input type="text" class="input-field" id="wallet-input" required>
+      </div>
+      
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms-checkbox">
+        <label for="terms-checkbox">Я прочитал правила и принимаю условия сервиса</label>
+      </div>
+      
+      <button class="submit-btn" id="submit-btn">Создать заявку</button>
+      <button class="back-btn" id="back-btn">Перейти на главный экран</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Элементы интерфейса
+  const mainScreen = document.getElementById('main-screen');
+  const formScreen = document.getElementById('form-screen');
+  const buyBtn = document.getElementById('buy-btn');
+  const sellBtn = document.getElementById('sell-btn');
+  const backBtn = document.getElementById('back-btn');
+  const submitBtn = document.getElementById('submit-btn');
+  const formTitle = document.getElementById('form-title');
+  const rateInfo = document.getElementById('rate-info');
+  
+  // Переменные состояния
+  let currentAction = 'buy'; // 'buy' или 'sell'
+  
+  // Обработчики кнопок
+  buyBtn.addEventListener('click', () => {
+    currentAction = 'buy';
+    formTitle.textContent = 'КУПИТЬ USDT';
+    mainScreen.style.display = 'none';
+    formScreen.style.display = 'block';
+  });
+  
+  sellBtn.addEventListener('click', () => {
+    currentAction = 'sell';
+    formTitle.textContent = 'ПРОДАТЬ USDT';
+    mainScreen.style.display = 'none';
+    formScreen.style.display = 'block';
+  });
+  
+  backBtn.addEventListener('click', () => {
+    formScreen.style.display = 'none';
+    mainScreen.style.display = 'block';
+  });
+  
+  submitBtn.addEventListener('click', () => {
+    const amount = document.getElementById('amount-input').value;
+    const lastName = document.getElementById('lastname-input').value;
+    const firstName = document.getElementById('firstname-input').value;
+    const wallet = document.getElementById('wallet-input').value;
+    const termsChecked = document.getElementById('terms-checkbox').checked;
+    
+    if (!amount || !lastName || !firstName || !wallet) {
+      alert('Пожалуйста, заполните все обязательные поля');
+      return;
+    }
+    
+    if (wallet.length !== 34) {
+      alert('Адрес кошелька должен содержать 34 символа');
+      return;
+    }
+    
+    if (!termsChecked) {
+      alert('Необходимо принять условия сервиса');
+      return;
+    }
+    
+    // Здесь должна быть логика отправки данных
+    alert(`Заявка на ${currentAction === 'buy' ? 'покупку' : 'продажу'} USDT на сумму ${amount} руб. отправлена`);
+    
+    // Очищаем форму
+    document.getElementById('amount-input').value = '';
+    document.getElementById('lastname-input').value = '';
+    document.getElementById('firstname-input').value = '';
+    document.getElementById('middlename-input').value = '';
+    document.getElementById('wallet-input').value = '';
+    document.getElementById('terms-checkbox').checked = false;
+    
+    // Возвращаемся на главный экран
+    formScreen.style.display = 'none';
+    mainScreen.style.display = 'block';
+  });
+  
+  // Получение курса USDT
+  async function fetchUSDTPrice() {
+    try {
+      // Здесь должен быть реальный API-запрос
+      // Для примера используем фиксированный курс
+      const buyRate = 90.5;
+      const sellRate = 89.2;
+      
+      rateInfo.textContent = `Купить: ${buyRate} ₽, Продать: ${sellRate} ₽`;
+    } catch (error) {
+      rateInfo.textContent = 'Не удалось загрузить курс';
+    }
+  }
+  
+  // Инициализация приложения
+  fetchUSDTPrice();
+</script>
+</body>
+</html>
